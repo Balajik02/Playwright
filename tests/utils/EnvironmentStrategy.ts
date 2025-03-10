@@ -11,6 +11,19 @@ export abstract class Environment {
   abstract getConfig(): EnvironmentConfig;
 }
 
+export class CIEnvironment extends Environment {
+  getConfig(): EnvironmentConfig {
+    return {
+      baseUrl: process.env.CI_BASE_URL || 'http://localhost:5000',
+      apiUrl: process.env.CI_API_URL || 'http://localhost:5000/api',
+      credentials: {
+        username: process.env.CI_TEST_USERNAME || 'testuser',
+        password: process.env.CI_TEST_PASSWORD || 'password123',
+      },
+    };
+  }
+}
+
 export class ProductionEnvironment extends Environment {
   getConfig(): EnvironmentConfig {
     return {
@@ -37,15 +50,32 @@ export class StagingEnvironment extends Environment {
   }
 }
 
+export class DevelopmentEnvironment extends Environment {
+  getConfig(): EnvironmentConfig {
+    return {
+      baseUrl: 'http://localhost:5000',
+      apiUrl: 'http://localhost:5000/api',
+      credentials: {
+        username: 'testuser',
+        password: 'password123',
+      },
+    };
+  }
+}
+
 export class EnvironmentFactory {
   static getEnvironment(envType: string): Environment {
     switch (envType.toLowerCase()) {
+      case 'ci':
+        return new CIEnvironment();
       case 'production':
         return new ProductionEnvironment();
       case 'staging':
         return new StagingEnvironment();
+      case 'development':
+        return new DevelopmentEnvironment();
       default:
-        throw new Error(`Unsupported environment: ${envType}`);
+        return new DevelopmentEnvironment();
     }
   }
 }
