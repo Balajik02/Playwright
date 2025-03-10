@@ -33,6 +33,13 @@ const config: PlaywrightTestConfig = {
         viewport: { width: 1280, height: 720 },
       },
     },
+    {
+      name: 'API Tests',
+      use: { 
+        // This project doesn't need a browser
+        browserName: undefined,
+      },
+    },
   ],
 };
 
