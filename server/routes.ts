@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { Router } from 'express';
 
 // Login request validation schema
 const loginSchema = z.object({
@@ -10,8 +11,11 @@ const loginSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Create a dedicated router for API routes
+  const apiRouter = Router();
+
   // Login endpoint
-  app.post("/api/login", async (req, res) => {
+  apiRouter.post("/login", async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     try {
@@ -48,6 +52,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+
+  // Mount the API router at /api
+  app.use('/api', apiRouter);
 
   const httpServer = createServer(app);
   return httpServer;

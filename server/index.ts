@@ -41,6 +41,7 @@ app.use((req, res, next) => {
   // Ensure API routes are handled first
   app.use('/api', (req, res, next) => {
     if (!res.headersSent) {
+      log(`API request received: ${req.method} ${req.path}`);
       next();
     }
   });

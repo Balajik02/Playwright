@@ -12,6 +12,10 @@ const config: PlaywrightTestConfig = {
       suiteTitle: false,
     }]  
   ],
+  workers: process.env.CI ? 4 : undefined, 
+  fullyParallel: true, 
+  forbidOnly: !!process.env.CI, 
+  retries: process.env.CI ? 2 : 0, 
   use: {
     baseURL: ConfigManager.getInstance().getBaseUrl(),
     screenshot: 'only-on-failure',
@@ -25,6 +29,7 @@ const config: PlaywrightTestConfig = {
         browserName: 'chromium',
         viewport: { width: 1280, height: 720 },
       },
+      workers: 2, 
     },
     {
       name: 'Firefox',
@@ -32,13 +37,14 @@ const config: PlaywrightTestConfig = {
         browserName: 'firefox',
         viewport: { width: 1280, height: 720 },
       },
+      workers: 2, 
     },
     {
       name: 'API Tests',
       use: { 
-        // This project doesn't need a browser
         browserName: undefined,
       },
+      workers: 3, 
     },
   ],
 };
