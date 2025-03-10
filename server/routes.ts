@@ -12,6 +12,8 @@ const loginSchema = z.object({
 export async function registerRoutes(app: Express): Promise<Server> {
   // Login endpoint
   app.post("/api/login", async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
     try {
       // Validate request body
       const result = loginSchema.safeParse(req.body);
@@ -23,12 +25,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const { username, password } = result.data;
+      const testUser = {
+        username: "testuser",
+        password: "password123"
+      };
 
-      // For demo purposes, check against hardcoded credentials
-      // In a real app, this would validate against the database
-      if (username === "testuser" && password === "password123") {
+      // Check credentials against test user
+      if (username === testUser.username && password === testUser.password) {
         return res.status(200).json({
-          token: "dummy_jwt_token", // In a real app, this would be a real JWT
+          token: "dummy_jwt_token",
         });
       }
 

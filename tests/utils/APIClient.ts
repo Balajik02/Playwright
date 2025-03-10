@@ -15,6 +15,7 @@ export class APIClient {
       data,
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
     return response;
@@ -23,7 +24,7 @@ export class APIClient {
   async get(endpoint: string) {
     const response = await this.request.get(`${this.baseUrl}${endpoint}`, {
       headers: {
-        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
     return response;
@@ -32,7 +33,7 @@ export class APIClient {
   async delete(endpoint: string) {
     const response = await this.request.delete(`${this.baseUrl}${endpoint}`, {
       headers: {
-        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
     return response;
@@ -43,6 +44,7 @@ export class APIClient {
       data,
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
     return response;

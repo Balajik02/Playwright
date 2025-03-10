@@ -11,16 +11,15 @@ test.describe('Login API Tests', () => {
   });
 
   test('should successfully login with valid credentials', async () => {
-    const testUser = TestDataBuilder.createDefaultUser();
-    
+    // Use the same credentials as defined in server/routes.ts
     const response = await apiClient.post(APIEndpoints.LOGIN, {
-      username: testUser.username,
-      password: testUser.password,
+      username: "testuser",
+      password: "password123",
     });
 
     expect(response.ok()).toBeTruthy();
     expect(response.status()).toBe(200);
-    
+
     const body = await response.json();
     expect(body).toHaveProperty('token');
   });
@@ -31,18 +30,16 @@ test.describe('Login API Tests', () => {
       password: 'wrong',
     });
 
-    expect(response.ok()).toBeFalsy();
     expect(response.status()).toBe(401);
+    const body = await response.json();
+    expect(body).toHaveProperty('message', 'Invalid username or password');
   });
 
   test('should validate required fields', async () => {
     const response = await apiClient.post(APIEndpoints.LOGIN, {});
 
-    expect(response.ok()).toBeFalsy();
     expect(response.status()).toBe(400);
-    
     const body = await response.json();
-    expect(body).toHaveProperty('message');
-    expect(body.message).toContain('required');
+    expect(body).toHaveProperty('message', 'Username and password are required');
   });
 });
