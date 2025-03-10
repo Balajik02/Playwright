@@ -1,0 +1,19 @@
+{
+  "users": {
+    "validUser": {
+      "username": "testUser1",
+      "password": "Password123!",
+      "email": "test1@example.com"
+    },
+    "invalidUser": {
+      "username": "invalid",
+      "password": "wrong",
+      "email": "invalid@example.com"
+    }
+  },
+  "endpoints": {
+    "login": "/api/login",
+    "dashboard": "/dashboard",
+    "profile": "/profile"
+  }
+}
